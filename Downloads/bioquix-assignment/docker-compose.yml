@@ -1,0 +1,9 @@
+version: '3'
+services:
+  api-proxy:
+    build: ./api-proxy
+    ports:
+      - "5000:5000"
+
+  heartbeat:
+    build: ./heartbeat

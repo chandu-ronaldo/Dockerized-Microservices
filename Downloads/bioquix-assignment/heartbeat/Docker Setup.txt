@@ -1,0 +1,51 @@
+ Docker Setup:
+
+
+
+This project uses Docker to containerize both services and Docker Compose to run them together easily.
+
+
+api-proxy/Dockerfile:
+
+FROM openjdk:17
+COPY target/api-proxy.jar app.jar
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+
+
+
+heartbeat/Dockerfile:
+
+
+FROM openjdk:17
+COPY target/heartbeat.jar app.jar
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+
+docker-compose.yml:
+
+
+
+version: '3'
+services:
+  api-proxy:
+    build: ./api-proxy
+    container_name: api-proxy
+    ports:
+      - "8080:8080"
+
+  heartbeat:
+    build: ./heartbeat
+    container_name: heartbeat
+    ports:
+      - "8081:8081"
+    depends_on:
+      - api-proxy
+
+
+
+Run the System:
+
+docker-compose up --build
+
+
